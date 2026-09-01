@@ -1,0 +1,1919 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>🌈 Matematika Ceria</title>
+
+
+    <style>
+
+        /* ==================================================
+           RESET
+        ================================================== */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        /* ==================================================
+           BODY
+        ================================================== */
+
+        body {
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 15px;
+
+            font-family:
+                "Comic Sans MS",
+                "Trebuchet MS",
+                Arial,
+                sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #74ebd5,
+                    #9face6
+                );
+        }
+
+
+        /* ==================================================
+           GAME
+        ================================================== */
+
+        .game {
+            width: 100%;
+            max-width: 1000px;
+
+            padding: 30px;
+
+            text-align: center;
+
+            background: #ffffff;
+
+            border-radius: 30px;
+
+            box-shadow:
+                0 15px 40px
+                rgba(0, 0, 0, 0.18);
+        }
+
+
+        /* ==================================================
+           JUDUL
+        ================================================== */
+
+        h1 {
+            margin-bottom: 18px;
+
+            color: #ff6b6b;
+
+            font-size: 38px;
+
+            text-shadow:
+                2px 2px 0 #ffe66d;
+        }
+
+
+        /* ==================================================
+           SKOR
+        ================================================== */
+
+        .score {
+            display: inline-block;
+
+            margin-bottom: 20px;
+
+            padding: 12px 22px;
+
+            border-radius: 50px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #fff3b0,
+                    #ffd166
+                );
+
+            color: #7a4e00;
+
+            font-size: 20px;
+
+            font-weight: bold;
+        }
+
+
+        .score span {
+            color: #e03131;
+
+            font-size: 24px;
+        }
+
+
+        /* ==================================================
+           DAFTAR NILAI GAMBAR
+        ================================================== */
+
+        .daftar-gambar {
+            margin-bottom: 25px;
+
+            padding: 18px;
+
+            border: 3px solid #74c0fc;
+
+            border-radius: 25px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #e7f5ff,
+                    #d0ebff
+                );
+        }
+
+
+        .daftar-title {
+            margin-bottom: 15px;
+
+            color: #1864ab;
+
+            font-size: 21px;
+
+            font-weight: bold;
+        }
+
+
+        .gambar-list {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 10px;
+        }
+
+
+        /* ==================================================
+           KARTU NILAI
+        ================================================== */
+
+        .gambar-card {
+            min-width: 85px;
+
+            padding: 8px 12px;
+
+            border: 2px solid #4dabf7;
+
+            border-radius: 15px;
+
+            background: #ffffff;
+
+            box-shadow:
+                0 4px 8px
+                rgba(0, 0, 0, 0.08);
+        }
+
+
+        .gambar-icon {
+            display: block;
+
+            font-size: 34px;
+
+            line-height: 1.1;
+        }
+
+
+        .gambar-nilai {
+            display: block;
+
+            margin-top: 3px;
+
+            color: #1971c2;
+
+            font-size: 17px;
+
+            font-weight: bold;
+        }
+
+
+        /* ==================================================
+           PERTANYAAN
+        ================================================== */
+
+        .question {
+            margin-bottom: 20px;
+
+            padding: 16px;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #fff3bf,
+                    #ffe066
+                );
+
+            color: #7a4e00;
+
+            font-size: 24px;
+
+            font-weight: bold;
+        }
+
+
+        /* ==================================================
+           AREA SOAL
+        ================================================== */
+
+        .objects {
+            margin: 20px 0;
+        }
+
+
+        .soal {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 8px;
+
+            padding: 25px;
+
+            border: 4px dashed #ffca3a;
+
+            border-radius: 25px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #fff9db,
+                    #fff1a8
+                );
+
+            box-shadow:
+                0 8px 20px
+                rgba(255, 202, 58, 0.25);
+        }
+
+
+        /* ==================================================
+           GAMBAR DI DALAM SOAL
+
+           PENTING:
+           TIDAK ADA ANGKA NILAI DI SINI.
+        ================================================== */
+
+        .soal-gambar {
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            width: 75px;
+            height: 75px;
+
+            border: 3px solid #4dabf7;
+
+            border-radius: 18px;
+
+            background: #ffffff;
+
+            font-size: 42px;
+
+            box-shadow:
+                0 5px 0 #339af0;
+
+            animation:
+                masuk 0.4s ease;
+        }
+
+
+        /* ==================================================
+           OPERATOR
+        ================================================== */
+
+        .operator {
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            width: 30px;
+
+            color: #ff6b6b;
+
+            font-size: 34px;
+
+            font-weight: bold;
+        }
+
+
+        /* ==================================================
+           PILIHAN JAWABAN
+        ================================================== */
+
+        .answers {
+            display: grid;
+
+            grid-template-columns:
+                repeat(5, 1fr);
+
+            gap: 15px;
+
+            margin-top: 25px;
+        }
+
+
+        .answer {
+            min-height: 70px;
+
+            border: none;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #845ef7,
+                    #5f3dc4
+                );
+
+            color: #ffffff;
+
+            font-size: 28px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 7px 0 #43289b;
+
+            transition:
+                0.15s;
+        }
+
+
+        .answer:hover {
+            transform:
+                translateY(-4px);
+
+            box-shadow:
+                0 11px 0 #43289b;
+        }
+
+
+        .answer:active {
+            transform:
+                translateY(3px);
+
+            box-shadow:
+                0 3px 0 #43289b;
+        }
+
+
+        .answer.correct {
+            background:
+                linear-gradient(
+                    135deg,
+                    #51cf66,
+                    #2f9e44
+                );
+
+            box-shadow:
+                0 7px 0 #237a35;
+        }
+
+
+        .answer.wrong {
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff6b6b,
+                    #e03131
+                );
+
+            box-shadow:
+                0 7px 0 #a61e1e;
+        }
+
+
+        .answer:disabled {
+            cursor: not-allowed;
+        }
+
+
+        /* ==================================================
+           PESAN
+        ================================================== */
+
+        .message {
+            min-height: 45px;
+
+            margin-top: 20px;
+
+            color: #495057;
+
+            font-size: 21px;
+
+            font-weight: bold;
+        }
+
+
+        /* ==================================================
+           TOMBOL BERIKUTNYA
+        ================================================== */
+
+        .next {
+            display: none;
+
+            width: 100%;
+
+            margin-top: 15px;
+
+            padding: 17px;
+
+            border: none;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff922b,
+                    #f76707
+                );
+
+            color: #ffffff;
+
+            font-size: 22px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 7px 0 #c94f00;
+        }
+
+
+        .next:hover {
+            transform:
+                translateY(-3px);
+        }
+
+
+        /* ==================================================
+           HASIL
+        ================================================== */
+
+        .hasil {
+            padding: 20px;
+        }
+
+
+        .hasil-icon {
+            font-size: 80px;
+        }
+
+
+        .hasil-title {
+            margin: 20px 0;
+
+            color: #ff6b6b;
+        }
+
+
+        .hasil-label {
+            color: #868e96;
+
+            font-size: 20px;
+        }
+
+
+        .hasil-score {
+            margin: 10px 0;
+
+            color: #845ef7;
+
+            font-size: 60px;
+
+            font-weight: bold;
+        }
+
+
+        .hasil-nilai {
+            display: inline-block;
+
+            padding: 12px 25px;
+
+            border-radius: 50px;
+
+            background: #fff3bf;
+
+            color: #e67700;
+
+            font-size: 28px;
+
+            font-weight: bold;
+        }
+
+
+        .hasil-pesan {
+            margin: 25px 0;
+
+            font-size: 22px;
+
+            font-weight: bold;
+        }
+
+
+        .main-lagi {
+            width: 100%;
+
+            padding: 18px;
+
+            border: none;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #20c997,
+                    #099268
+                );
+
+            color: white;
+
+            font-size: 23px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 7px 0 #087456;
+        }
+
+
+        /* ==================================================
+           ANIMASI
+        ================================================== */
+
+        @keyframes masuk {
+
+            from {
+                opacity: 0;
+
+                transform:
+                    scale(0.5);
+            }
+
+            to {
+                opacity: 1;
+
+                transform:
+                    scale(1);
+            }
+
+        }
+
+
+        /* ==================================================
+           TABLET
+        ================================================== */
+
+        @media (max-width: 700px) {
+
+            .game {
+                padding: 20px;
+            }
+
+
+            h1 {
+                font-size: 30px;
+            }
+
+
+            .answers {
+                grid-template-columns:
+                    repeat(3, 1fr);
+            }
+
+        }
+
+
+        /* ==================================================
+           HP
+        ================================================== */
+
+        @media (max-width: 480px) {
+
+            body {
+                padding: 8px;
+            }
+
+
+            .game {
+                padding: 15px;
+
+                border-radius: 22px;
+            }
+
+
+            h1 {
+                font-size: 25px;
+            }
+
+
+            .score {
+                font-size: 16px;
+            }
+
+
+            .question {
+                font-size: 19px;
+            }
+
+
+            .gambar-card {
+                min-width: 65px;
+
+                padding: 6px 8px;
+            }
+
+
+            .gambar-icon {
+                font-size: 27px;
+            }
+
+
+            .gambar-nilai {
+                font-size: 14px;
+            }
+
+
+            .soal {
+                gap: 4px;
+
+                padding: 15px;
+            }
+
+
+            .soal-gambar {
+                width: 48px;
+                height: 48px;
+
+                border-width: 2px;
+
+                border-radius: 11px;
+
+                font-size: 28px;
+            }
+
+
+            .operator {
+                width: 15px;
+
+                font-size: 23px;
+            }
+
+
+            .answers {
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+                gap: 10px;
+            }
+
+
+            .answer {
+                min-height: 60px;
+
+                font-size: 23px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div
+        class="game"
+        id="game"
+    >
+
+        <h1>
+            🌈 Matematika Ceria 🌈
+        </h1>
+
+
+        <!-- ==================================================
+             SKOR
+        ================================================== -->
+
+        <div class="score">
+
+            ⭐ Skor:
+            <span id="score">0</span>
+
+            &nbsp; | &nbsp;
+
+            📝 Soal:
+            <span id="nomorSoal">0</span>/20
+
+        </div>
+
+
+        <!-- ==================================================
+             NILAI GAMBAR
+        ================================================== -->
+
+        <div class="daftar-gambar">
+
+            <div class="daftar-title">
+                📚 Nilai Setiap Gambar
+            </div>
+
+
+            <div
+                class="gambar-list"
+                id="gambarList"
+            ></div>
+
+        </div>
+
+
+        <!-- ==================================================
+             PERTANYAAN
+        ================================================== -->
+
+        <div
+            class="question"
+            id="question"
+        >
+            Hitunglah hasilnya!
+        </div>
+
+
+        <!-- ==================================================
+             SOAL GAMBAR
+        ================================================== -->
+
+        <div
+            class="objects"
+            id="objects"
+        ></div>
+
+
+        <!-- ==================================================
+             PILIHAN JAWABAN
+        ================================================== -->
+
+        <div
+            class="answers"
+            id="answers"
+        ></div>
+
+
+        <!-- ==================================================
+             PESAN
+        ================================================== -->
+
+        <div
+            class="message"
+            id="message"
+        ></div>
+
+
+        <!-- ==================================================
+             TOMBOL NEXT
+        ================================================== -->
+
+        <button
+            class="next"
+            id="next"
+            onclick="soalBerikutnya()"
+        >
+            ➡️ Soal Berikutnya
+        </button>
+
+    </div>
+
+
+    <script>
+
+      function acak(min, max) {
+
+    return Math.floor(
+        Math.random() * (max - min + 1)
+    ) + min;
+
+}
+
+
+        /* ==================================================
+        DATA GAMBAR
+        ================================================== */
+
+        const gambar = [
+
+            {
+                icon: "🍓",
+                nama: "Stroberi",
+                nilai: acak(11, 50)
+            },
+            {
+                icon: "🍎",
+                nama: "Apel",
+                nilai: acak(11, 50)
+            },
+            {
+                icon: "🍊",
+                nama: "Jeruk",
+                nilai: acak(11, 50)
+            },
+            {
+                icon: "🍌",
+                nama: "Pisang",
+                nilai: acak(11, 50)
+            },
+            {
+                icon: "🍉",
+                nama: "Semangka",
+                nilai: acak(11, 50)
+            },
+            {
+                icon: "🍇",
+                nama: "Anggur",
+                nilai: acak(11, 50)
+            },
+            {
+                icon: "🍒",
+                nama: "Ceri",
+                nilai: acak(11, 50)
+            },
+            {
+                icon: "🍍",
+                nama: "Nanas",
+                nilai: acak(11, 50)
+            },
+            {
+                icon: "🥕",
+                nama: "Wortel",
+                nilai: acak(11, 50)
+            },
+            {
+                icon: "🌽",
+                nama: "Jagung",
+                nilai: acak(11, 50)
+            },
+            {
+                icon: "⭐",
+                nama: "Bintang",
+                nilai: acak(11, 50)
+            },
+            {
+                icon: "❤️",
+                nama: "Hati",
+                nilai: acak(11, 50)
+            },
+            {
+                icon: "🌸",
+                nama: "Bunga",
+                nilai: acak(11, 50)
+            },
+            {
+                icon: "🌻",
+                nama: "Bunga Matahari",
+                nilai: acak(11, 50)
+            },
+            // {
+            //     icon: "🌈",
+            //     nama: "Pelangi",
+            //     nilai: acak(11, 50)
+            // },
+            // {
+            //     icon: "☀️",
+            //     nama: "Matahari",
+            //     nilai: acak(11, 50)
+            // },
+            // {
+            //     icon: "🌙",
+            //     nama: "Bulan",
+            //     nilai: acak(11, 50)
+            // },
+            // {
+            //     icon: "☁️",
+            //     nama: "Awan",
+            //     nilai: acak(11, 50)
+            // },
+            // {
+            //     icon: "🐱",
+            //     nama: "Kucing",
+            //     nilai: acak(11, 50)
+            // },
+            // {
+            //     icon: "🐶",
+            //     nama: "Anjing",
+            //     nilai: acak(11, 50)
+            // },
+            // {
+            //     icon: "🐟",
+            //     nama: "Ikan",
+            //     nilai: acak(11, 50)
+            // },
+            // {
+            //     icon: "🦋",
+            //     nama: "Kupu-kupu",
+            //     nilai: acak(11, 50)
+            // },
+            // {
+            //     icon: "🐸",
+            //     nama: "Katak",
+            //     nilai: acak(11, 50)
+            // },
+            // {
+            //     icon: "🐰",
+            //     nama: "Kelinci",
+            //     nilai: acak(11, 50)
+            // },
+            // {
+            //     icon: "🐼",
+            //     nama: "Panda",
+            //     nilai: acak(11, 50)
+            // },
+            // {
+            //     icon: "🦁",
+            //     nama: "Singa",
+            //     nilai: acak(11, 50)
+            // },
+            // {
+            //     icon: "🐘",
+            //     nama: "Gajah",
+            //     nilai: acak(11, 50)
+            // },
+            // {
+            //     icon: "🐵",
+            //     nama: "Monyet",
+            //     nilai: acak(11, 50)
+            // },
+            // {
+            //     icon: "🚗",
+            //     nama: "Mobil",
+            //     nilai: acak(11, 50)
+            // },
+            // {
+            //     icon: "🚌",
+            //     nama: "Bus",
+            //     nilai: acak(11, 50)
+            // },
+            // {
+            //     icon: "🚲",
+            //     nama: "Sepeda",
+            //     nilai: acak(11, 50)
+            // },
+            // {
+            //     icon: "✈️",
+            //     nama: "Pesawat",
+            //     nilai: acak(11, 50)
+            // },
+            // {
+            //     icon: "🚀",
+            //     nama: "Roket",
+            //     nilai: acak(11, 50)
+            // },
+            // {
+            //     icon: "🚂",
+            //     nama: "Kereta",
+            //     nilai: acak(11, 50)
+            // },
+            // {
+            //     icon: "⚽",
+            //     nama: "Bola",
+            //     nilai: acak(11, 50)
+            // },
+            // {
+            //     icon: "🎈",
+            //     nama: "Balon",
+            //     nilai: acak(11, 50)
+            // },
+            // {
+            //     icon: "🎁",
+            //     nama: "Hadiah",
+            //     nilai: acak(11, 50)
+            // },
+            // {
+            //     icon: "🍭",
+            //     nama: "Lolipop",
+            //     nilai: acak(11, 50)
+            // },
+            // {
+            //     icon: "🍩",
+            //     nama: "Donat",
+            //     nilai: acak(11, 50)
+            // },
+            // {
+            //     icon: "🍪",
+            //     nama: "Biskuit",
+            //     nilai: acak(11, 50)
+            // },
+            // {
+            //     icon: "🎂",
+            //     nama: "Kue",
+            //     nilai: acak(11, 50)
+            // },
+            // {
+            //     icon: "🧸",
+            //     nama: "Boneka",
+            //     nilai: acak(11, 50)
+            // }
+
+        ];
+
+
+        /* ==================================================
+           KONFIGURASI
+        ================================================== */
+
+        const TOTAL_SOAL = 20;
+
+        const JUMLAH_GAMBAR = 12;
+
+        const HASIL_MIN = 0;
+
+        const HASIL_MAX = 99;
+
+        const JUMLAH_PILIHAN = 5;
+
+
+        /* ==================================================
+           VARIABEL
+        ================================================== */
+
+        let jawabanBenar = 0;
+
+        let skor = 0;
+
+        let nomorSoal = 0;
+
+        let sudahMenjawab = false;
+
+
+        /* ==================================================
+           ANGKA ACAK
+        ================================================== */
+
+        function acak(min, max) {
+
+            return Math.floor(
+                Math.random() *
+                (max - min + 1)
+            ) + min;
+
+        }
+
+
+        /* ==================================================
+           SHUFFLE
+        ================================================== */
+
+        function shuffle(array) {
+
+            for (
+                let i = array.length - 1;
+                i > 0;
+                i--
+            ) {
+
+                const j =
+                    Math.floor(
+                        Math.random() *
+                        (i + 1)
+                    );
+
+
+                [
+                    array[i],
+                    array[j]
+                ] = [
+                    array[j],
+                    array[i]
+                ];
+
+            }
+
+            return array;
+
+        }
+
+
+        /* ==================================================
+           TAMPILKAN NILAI GAMBAR
+        ================================================== */
+
+        function tampilkanDaftarGambar() {
+
+            const list =
+                document.getElementById(
+                    "gambarList"
+                );
+
+
+            list.innerHTML = "";
+
+
+            gambar.forEach(
+                item => {
+
+                    const card =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    card.className =
+                        "gambar-card";
+
+
+                    card.innerHTML = `
+
+                        <span class="gambar-icon">
+                            ${item.icon}
+                        </span>
+
+                        <span class="gambar-nilai">
+                            = ${item.nilai}
+                        </span>
+
+                    `;
+
+
+                    list.appendChild(
+                        card
+                    );
+
+                }
+            );
+
+        }
+
+
+        /* ==================================================
+           BUAT SOAL MATEMATIKA
+        ================================================== */
+
+        function buatSoalMatematika() {
+
+            const MAKS_PERCOBAAN = 1000;
+
+
+            for (
+                let percobaan = 0;
+                percobaan < MAKS_PERCOBAAN;
+                percobaan++
+            ) {
+
+                const daftarGambar = [];
+
+                const operasi = [];
+
+
+                /*
+                 * Pilih 8 gambar.
+                 */
+
+                for (
+                    let i = 0;
+                    i < JUMLAH_GAMBAR;
+                    i++
+                ) {
+
+                    const index =
+                        acak(
+                            0,
+                            gambar.length - 1
+                        );
+
+
+                    daftarGambar.push(
+                        gambar[index]
+                    );
+
+                }
+
+
+                /*
+                 * Buat operator.
+                 */
+
+                for (
+                    let i = 0;
+                    i < JUMLAH_GAMBAR - 1;
+                    i++
+                ) {
+
+                    operasi.push(
+
+                        Math.random() < 0.5
+                            ? "+"
+                            : "-"
+
+                    );
+
+                }
+
+
+                /*
+                 * Hitung hasil.
+                 */
+
+                let hasil =
+                    daftarGambar[0].nilai;
+
+
+                for (
+                    let i = 1;
+                    i < daftarGambar.length;
+                    i++
+                ) {
+
+                    if (
+                        operasi[i - 1] === "+"
+                    ) {
+
+                        hasil +=
+                            daftarGambar[i].nilai;
+
+                    }
+
+                    else {
+
+                        hasil -=
+                            daftarGambar[i].nilai;
+
+                    }
+
+                }
+
+
+                /*
+                 * Pastikan hasil 0-100.
+                 */
+
+                if (
+                    hasil >= HASIL_MIN &&
+                    hasil <= HASIL_MAX
+                ) {
+
+                    return {
+
+                        gambar: daftarGambar,
+
+                        operasi: operasi,
+
+                        hasil: hasil
+
+                    };
+
+                }
+
+            }
+
+
+            /*
+             * Soal cadangan.
+             * Pasti menghasilkan nilai valid.
+             */
+
+            return {
+
+                gambar: [
+                    gambar[0],
+                    gambar[1],
+                    gambar[10],
+                    gambar[10],
+                    gambar[10],
+                    gambar[10],
+                    gambar[10],
+                    gambar[10]
+                ],
+
+                operasi: [
+                    "+",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "+",
+                    "+"
+                ],
+
+                hasil: 26
+
+            };
+
+        }
+
+
+        /* ==================================================
+           BUAT PILIHAN JAWABAN
+        ================================================== */
+
+        function buatPilihanJawaban(jawaban) {
+
+            const pilihan = [
+                jawaban
+            ];
+
+
+            /*
+             * Maksimal 100 percobaan.
+             * Mencegah looping tanpa akhir.
+             */
+
+            let percobaan = 0;
+
+
+            while (
+                pilihan.length <
+                JUMLAH_PILIHAN &&
+                percobaan < 100
+            ) {
+
+                percobaan++;
+
+
+                const selisih =
+                    acak(1, 15);
+
+
+                const arah =
+                    Math.random() < 0.5
+                        ? -1
+                        : 1;
+
+
+                const salah =
+                    jawaban +
+                    (
+                        selisih *
+                        arah
+                    );
+
+
+                if (
+                    salah >= 0 &&
+                    salah <= 100 &&
+                    !pilihan.includes(salah)
+                ) {
+
+                    pilihan.push(
+                        salah
+                    );
+
+                }
+
+            }
+
+
+            /*
+             * Pengaman tambahan.
+             */
+
+            for (
+                let angka = 0;
+                pilihan.length < JUMLAH_PILIHAN &&
+                angka <= 100;
+                angka++
+            ) {
+
+                if (
+                    !pilihan.includes(angka)
+                ) {
+
+                    pilihan.push(
+                        angka
+                    );
+
+                }
+
+            }
+
+
+            return shuffle(pilihan);
+
+        }
+
+
+        /* ==================================================
+           BUAT SOAL BARU
+        ================================================== */
+
+        function buatSoal() {
+
+            sudahMenjawab = false;
+
+            nomorSoal++;
+
+
+            const objects =
+                document.getElementById(
+                    "objects"
+                );
+
+
+            const answers =
+                document.getElementById(
+                    "answers"
+                );
+
+
+            const message =
+                document.getElementById(
+                    "message"
+                );
+
+
+            const next =
+                document.getElementById(
+                    "next"
+                );
+
+
+            /*
+             * Reset.
+             */
+
+            objects.innerHTML = "";
+
+            answers.innerHTML = "";
+
+            message.textContent = "";
+
+            next.style.display = "none";
+
+
+            /*
+             * Nomor soal.
+             */
+
+            document.getElementById(
+                "nomorSoal"
+            ).textContent =
+                nomorSoal;
+
+
+            /*
+             * Buat soal.
+             */
+
+            const soal =
+                buatSoalMatematika();
+
+
+            jawabanBenar =
+                soal.hasil;
+
+
+            /*
+             * Judul soal.
+             */
+
+            document.getElementById(
+                "question"
+            ).textContent =
+                `Soal ${nomorSoal} dari ${TOTAL_SOAL} — Hitunglah hasilnya!`;
+
+
+            /*
+             * Container soal.
+             */
+
+            const soalElement =
+                document.createElement(
+                    "div"
+                );
+
+
+            soalElement.className =
+                "soal";
+
+
+            /*
+             * Tampilkan GAMBAR SAJA.
+             *
+             * Tidak ada angka nilai
+             * di dalam soal.
+             */
+
+            soal.gambar.forEach(
+                (item, index) => {
+
+                    const gambarElement =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    gambarElement.className =
+                        "soal-gambar";
+
+
+                    gambarElement.textContent =
+                        item.icon;
+
+
+                    soalElement.appendChild(
+                        gambarElement
+                    );
+
+
+                    /*
+                     * Operator + atau -
+                     */
+
+                    if (
+                        index <
+                        soal.gambar.length - 1
+                    ) {
+
+                        const operator =
+                            document.createElement(
+                                "span"
+                            );
+
+
+                        operator.className =
+                            "operator";
+
+
+                        operator.textContent =
+                            soal.operasi[index];
+
+
+                        soalElement.appendChild(
+                            operator
+                        );
+
+                    }
+
+                }
+            );
+
+
+            objects.appendChild(
+                soalElement
+            );
+
+
+            /*
+             * Pilihan jawaban.
+             */
+
+            const pilihan =
+                buatPilihanJawaban(
+                    jawabanBenar
+                );
+
+
+            pilihan.forEach(
+                angka => {
+
+                    const button =
+                        document.createElement(
+                            "button"
+                        );
+
+
+                    button.className =
+                        "answer";
+
+
+                    button.textContent =
+                        angka;
+
+
+                    button.onclick =
+                        function () {
+
+                            periksaJawaban(
+                                angka,
+                                button
+                            );
+
+                        };
+
+
+                    answers.appendChild(
+                        button
+                    );
+
+                }
+            );
+
+        }
+
+
+        /* ==================================================
+           PERIKSA JAWABAN
+        ================================================== */
+
+        function periksaJawaban(
+            jawaban,
+            tombol
+        ) {
+
+            if (sudahMenjawab) {
+                return;
+            }
+
+
+            sudahMenjawab = true;
+
+
+            const semuaTombol =
+                document.querySelectorAll(
+                    ".answer"
+                );
+
+
+            const message =
+                document.getElementById(
+                    "message"
+                );
+
+
+            const next =
+                document.getElementById(
+                    "next"
+                );
+
+
+            /*
+             * BENAR
+             */
+
+            if (
+                jawaban === jawabanBenar
+            ) {
+
+                skor++;
+
+
+                document.getElementById(
+                    "score"
+                ).textContent =
+                    skor;
+
+
+                tombol.classList.add(
+                    "correct"
+                );
+
+
+                message.textContent =
+                    "🎉 Hebat! Jawaban benar! ⭐";
+
+            }
+
+
+            /*
+             * SALAH
+             */
+
+            else {
+
+                tombol.classList.add(
+                    "wrong"
+                );
+
+
+                message.textContent =
+                    `😊 Belum tepat. Jawaban yang benar adalah ${jawabanBenar}.`;
+
+
+                /*
+                 * Tampilkan jawaban benar.
+                 */
+
+                semuaTombol.forEach(
+                    button => {
+
+                        if (
+                            Number(
+                                button.textContent
+                            ) === jawabanBenar
+                        ) {
+
+                            button.classList.add(
+                                "correct"
+                            );
+
+                        }
+
+                    }
+                );
+
+            }
+
+
+            /*
+             * Matikan semua tombol.
+             */
+
+            semuaTombol.forEach(
+                button => {
+
+                    button.disabled = true;
+
+                }
+            );
+
+
+            /*
+             * Tombol berikutnya.
+             */
+
+            if (
+                nomorSoal === TOTAL_SOAL
+            ) {
+
+                next.textContent =
+                    "🏆 Lihat Nilai";
+
+            }
+
+            else {
+
+                next.textContent =
+                    "➡️ Soal Berikutnya";
+
+            }
+
+
+            next.style.display =
+                "block";
+
+        }
+
+
+        /* ==================================================
+           SOAL BERIKUTNYA
+        ================================================== */
+
+        function soalBerikutnya() {
+
+            if (
+                nomorSoal >= TOTAL_SOAL
+            ) {
+
+                tampilkanHasil();
+
+                return;
+
+            }
+
+
+            buatSoal();
+
+        }
+
+
+        /* ==================================================
+           TAMPILKAN HASIL
+        ================================================== */
+
+        function tampilkanHasil() {
+
+            const game =
+                document.getElementById(
+                    "game"
+                );
+
+
+            const nilai =
+                Math.round(
+                    (
+                        skor /
+                        TOTAL_SOAL
+                    ) * 100
+                );
+
+
+            let pesan;
+
+
+            if (nilai === 100) {
+
+                pesan =
+                    "🌟 Sempurna! Kamu hebat sekali!";
+
+            }
+
+            else if (nilai >= 80) {
+
+                pesan =
+                    "🎉 Hebat! Terus berlatih ya!";
+
+            }
+
+            else if (nilai >= 60) {
+
+                pesan =
+                    "😊 Bagus! Ayo latihan lagi!";
+
+            }
+
+            else {
+
+                pesan =
+                    "💪 Jangan menyerah! Kamu pasti bisa!";
+
+            }
+
+
+            game.innerHTML = `
+
+                <div class="hasil">
+
+                    <div class="hasil-icon">
+                        🏆
+                    </div>
+
+                    <h1 class="hasil-title">
+                        🎉 Permainan Selesai! 🎉
+                    </h1>
+
+                    <div class="hasil-label">
+                        Jawaban Benar
+                    </div>
+
+                    <div class="hasil-score">
+                        ${skor} / ${TOTAL_SOAL}
+                    </div>
+
+                    <div class="hasil-nilai">
+                        ⭐ Nilai: ${nilai}
+                    </div>
+
+                    <div class="hasil-pesan">
+                        ${pesan}
+                    </div>
+
+                    <button
+                        class="main-lagi"
+                        onclick="location.reload()"
+                    >
+                        🔄 Main Lagi
+                    </button>
+
+                </div>
+
+            `;
+
+        }
+
+
+        /* ==================================================
+           MULAI GAME
+        ================================================== */
+
+        tampilkanDaftarGambar();
+
+        buatSoal();
+
+    </script>
+
+</body>
+
+</html>

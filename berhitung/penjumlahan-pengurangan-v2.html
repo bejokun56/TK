@@ -1187,14 +1187,20 @@
 
         }
 
-
         /* ==================================================
-           BUAT SOAL MATEMATIKA
+        MEMBUAT SOAL MATEMATIKA
+
+        Aturan:
+        - 8 gambar
+        - Semua gambar harus berbeda
+        - Operasi campuran + dan -
+        - Hasil setiap langkah harus > 0
+        - Hasil akhir maksimal 100
         ================================================== */
 
         function buatSoalMatematika() {
 
-            const MAKS_PERCOBAAN = 1000;
+            const MAKS_PERCOBAAN = 5000;
 
 
             for (
@@ -1203,63 +1209,56 @@
                 percobaan++
             ) {
 
-                const daftarGambar = [];
+                /* ------------------------------------------
+                ACAK URUTAN GAMBAR
+                ------------------------------------------ */
+
+                const gambarAcak =
+                    shuffle([
+                        ...gambar
+                    ]);
+
+
+                /*
+                * Ambil 8 gambar pertama.
+                *
+                * Karena gambarAcak sudah di-shuffle,
+                * maka 8 gambar ini pasti berbeda.
+                */
+
+                const daftarGambar =
+                    gambarAcak.slice(
+                        0,
+                        JUMLAH_GAMBAR
+                    );
+
 
                 const operasi = [];
 
 
-                /*
-                 * Pilih 8 gambar.
-                 */
-
-                for (
-                    let i = 0;
-                    i < JUMLAH_GAMBAR;
-                    i++
-                ) {
-
-                    const index =
-                        acak(
-                            0,
-                            gambar.length - 1
-                        );
-
-
-                    daftarGambar.push(
-                        gambar[index]
-                    );
-
-                }
-
-
-                /*
-                 * Buat operator.
-                 */
-
-                for (
-                    let i = 0;
-                    i < JUMLAH_GAMBAR - 1;
-                    i++
-                ) {
-
-                    operasi.push(
-
-                        Math.random() < 0.5
-                            ? "+"
-                            : "-"
-
-                    );
-
-                }
-
-
-                /*
-                 * Hitung hasil.
-                 */
+                /* ------------------------------------------
+                NILAI AWAL
+                ------------------------------------------ */
 
                 let hasil =
                     daftarGambar[0].nilai;
 
+
+                /*
+                * Nilai gambar harus lebih dari 0.
+                */
+
+                if (hasil <= 0) {
+                    continue;
+                }
+
+
+                let soalValid = true;
+
+
+                /* ------------------------------------------
+                BUAT OPERASI
+                ------------------------------------------ */
 
                 for (
                     let i = 1;
@@ -1267,32 +1266,138 @@
                     i++
                 ) {
 
-                    if (
-                        operasi[i - 1] === "+"
-                    ) {
+                    let operator;
 
-                        hasil +=
+                    let hasilBaru;
+
+
+                    /*
+                    * Coba pilih operator secara acak.
+                    */
+
+                    operator =
+                        Math.random() < 0.5
+                            ? "+"
+                            : "-";
+
+
+                    /* --------------------------------------
+                    HITUNG HASIL SEMENTARA
+                    -------------------------------------- */
+
+                    if (operator === "+") {
+
+                        hasilBaru =
+                            hasil +
                             daftarGambar[i].nilai;
 
                     }
 
                     else {
 
-                        hasil -=
+                        hasilBaru =
+                            hasil -
                             daftarGambar[i].nilai;
+
+                    }
+
+
+                    /* --------------------------------------
+                    JIKA PENGURANGAN <= 0
+                    UBAH MENJADI PENJUMLAHAN
+                    -------------------------------------- */
+
+                    if (hasilBaru <= 0) {
+
+                        operator = "+";
+
+
+                        hasilBaru =
+                            hasil +
+                            daftarGambar[i].nilai;
+
+                    }
+
+
+                    /* --------------------------------------
+                    HASIL TIDAK BOLEH > 100
+                    -------------------------------------- */
+
+                    if (hasilBaru > HASIL_MAX) {
+
+                        /*
+                        * Coba gunakan pengurangan.
+                        */
+
+                        operator = "-";
+
+
+                        hasilBaru =
+                            hasil -
+                            daftarGambar[i].nilai;
+
+
+                        /*
+                        * Jika pengurangan juga
+                        * menghasilkan <= 0,
+                        * maka soal tidak valid.
+                        */
+
+                        if (hasilBaru <= 0) {
+
+                            soalValid = false;
+
+                            break;
+
+                        }
+
+                    }
+
+
+                    /* --------------------------------------
+                    SIMPAN OPERATOR
+                    -------------------------------------- */
+
+                    operasi.push(
+                        operator
+                    );
+
+
+                    /* --------------------------------------
+                    UPDATE HASIL
+                    -------------------------------------- */
+
+                    hasil =
+                        hasilBaru;
+
+
+                    /*
+                    * Pengaman.
+                    */
+
+                    if (
+                        hasil <= 0 ||
+                        hasil > HASIL_MAX
+                    ) {
+
+                        soalValid = false;
+
+                        break;
 
                     }
 
                 }
 
 
-                /*
-                 * Pastikan hasil 0-100.
-                 */
+                /* ------------------------------------------
+                CEK SOAL
+                ------------------------------------------ */
 
                 if (
-                    hasil >= HASIL_MIN &&
-                    hasil <= HASIL_MAX
+                    soalValid &&
+                    hasil > 0 &&
+                    hasil <= HASIL_MAX &&
+                    operasi.length === JUMLAH_GAMBAR - 1
                 ) {
 
                     return {
@@ -1310,35 +1415,90 @@
             }
 
 
+            /* ==================================================
+            SOAL CADANGAN
+            ================================================== */
+
             /*
-             * Soal cadangan.
-             * Pasti menghasilkan nilai valid.
-             */
+            * Gunakan 8 gambar pertama yang berbeda.
+            */
+
+            const daftarCadangan =
+                gambar.slice(
+                    0,
+                    JUMLAH_GAMBAR
+                );
+
+
+            let hasilCadangan =
+                daftarCadangan[0].nilai;
+
+
+            const operasiCadangan = [];
+
+
+            for (
+                let i = 1;
+                i < daftarCadangan.length;
+                i++
+            ) {
+
+                /*
+                * Jika penjumlahan masih <= 100,
+                * gunakan penjumlahan.
+                */
+
+                if (
+                    hasilCadangan +
+                    daftarCadangan[i].nilai
+                    <= HASIL_MAX
+                ) {
+
+                    operasiCadangan.push("+");
+
+
+                    hasilCadangan +=
+                        daftarCadangan[i].nilai;
+
+                }
+
+                /*
+                * Jika tidak, gunakan pengurangan
+                * selama hasil tetap > 0.
+                */
+
+                else {
+
+                    operasiCadangan.push("-");
+
+
+                    hasilCadangan -=
+                        daftarCadangan[i].nilai;
+
+
+                    /*
+                    * Pengaman tambahan.
+                    */
+
+                    if (hasilCadangan <= 0) {
+
+                        hasilCadangan =
+                            daftarCadangan[i].nilai;
+
+                    }
+
+                }
+
+            }
+
 
             return {
 
-                gambar: [
-                    gambar[0],
-                    gambar[1],
-                    gambar[10],
-                    gambar[10],
-                    gambar[10],
-                    gambar[10],
-                    gambar[10],
-                    gambar[10]
-                ],
+                gambar: daftarCadangan,
 
-                operasi: [
-                    "+",
-                    "-",
-                    "-",
-                    "-",
-                    "-",
-                    "+",
-                    "+"
-                ],
+                operasi: operasiCadangan,
 
-                hasil: 26
+                hasil: hasilCadangan
 
             };
 

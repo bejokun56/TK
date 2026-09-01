@@ -810,162 +810,364 @@
 
 
         /* ==================================================
-           MEMBUAT SOAL
+   MEMBUAT SOAL MATEMATIKA BERTAHAP
 
-           8 angka.
-           Setiap angka 10-25.
+   Setiap operasi dihitung satu per satu.
 
-           Operasi + dan - dicampur.
+   Contoh VALID:
 
-           Hasil selalu 0-100.
+   25 + 10 = 35
+   35 + 15 = 50
+   50 - 20 = 30
+   30 - 10 = 20
+   20 + 15 = 35
+   35 - 12 = 23
 
-           Menggunakan batas percobaan agar
-           tidak terjadi looping tanpa akhir.
-        ================================================== */
+   Tidak akan pernah terjadi:
 
-        function buatSoalMatematika() {
+   10 - 25 = -15 ❌
 
-            const MAKS_PERCOBAAN = 1000;
+   atau:
+
+   90 + 29 = 119 ❌
+================================================== */
+
+function buatSoalMatematika() {
+
+    const MAKS_PERCOBAAN = 1000;
 
 
-            for (
-                let percobaan = 0;
-                percobaan < MAKS_PERCOBAAN;
-                percobaan++
+    /*
+     * Ulangi pembuatan soal sampai
+     * mendapatkan rangkaian yang valid.
+     */
+
+    for (
+        let percobaan = 0;
+        percobaan < MAKS_PERCOBAAN;
+        percobaan++
+    ) {
+
+        const angka = [];
+
+        const operasi = [];
+
+
+        /*
+         * Angka pertama.
+         *
+         * Karena belum ada operasi,
+         * angka pertama bebas 3-29.
+         */
+
+        const angkaPertama =
+            acak(
+                ANGKA_MIN,
+                ANGKA_MAX
+            );
+
+
+        angka.push(
+            angkaPertama
+        );
+
+
+        /*
+         * Hasil sementara.
+         */
+
+        let hasilSaatIni =
+            angkaPertama;
+
+
+        /*
+         * Buat angka berikutnya satu per satu.
+         */
+
+        for (
+            let i = 1;
+            i < JUMLAH_ANGKA;
+            i++
+        ) {
+
+            /*
+             * Cari operasi yang memungkinkan.
+             */
+
+            const bisaTambah =
+                hasilSaatIni + ANGKA_MIN <= HASIL_MAX;
+
+
+            const bisaKurang =
+                hasilSaatIni - ANGKA_MIN >= HASIL_MIN;
+
+
+            /*
+             * Kalau tidak bisa tambah
+             * dan tidak bisa kurang,
+             * rangkaian ini tidak valid.
+             */
+
+            if (
+                !bisaTambah &&
+                !bisaKurang
             ) {
 
-                const angka = [];
+                break;
 
-                const operasi = [];
-
-
-                /*
-                 * Angka pertama.
-                 */
-
-                angka.push(
-                    acak(
-                        ANGKA_MIN,
-                        ANGKA_MAX
-                    )
-                );
+            }
 
 
-                /*
-                 * 7 angka berikutnya.
-                 */
-
-                for (
-                    let i = 1;
-                    i < JUMLAH_ANGKA;
-                    i++
-                ) {
-
-                    angka.push(
-                        acak(
-                            ANGKA_MIN,
-                            ANGKA_MAX
-                        )
-                    );
+            let operator;
 
 
-                    /*
-                     * Pilih + atau -
-                     */
+            /*
+             * Kalau hanya bisa tambah.
+             */
 
-                    operasi.push(
-                        Math.random() < 0.5
-                            ? "+"
-                            : "-"
-                    );
+            if (!bisaKurang) {
 
-                }
-
-
-                /*
-                 * Hitung hasil.
-                 */
-
-                let hasil = angka[0];
-
-
-                for (
-                    let i = 1;
-                    i < angka.length;
-                    i++
-                ) {
-
-                    if (
-                        operasi[i - 1] === "+"
-                    ) {
-
-                        hasil += angka[i];
-
-                    }
-
-                    else {
-
-                        hasil -= angka[i];
-
-                    }
-
-                }
-
-
-                /*
-                 * Cek hasil.
-                 */
-
-                if (
-                    hasil >= HASIL_MIN &&
-                    hasil <= HASIL_MAX
-                ) {
-
-                    return {
-                        angka: angka,
-                        operasi: operasi,
-                        hasil: hasil
-                    };
-
-                }
+                operator = "+";
 
             }
 
 
             /*
-             * Jika setelah 1000 percobaan
-             * belum menemukan soal, gunakan
-             * soal cadangan yang pasti valid.
+             * Kalau hanya bisa kurang.
              */
+
+            else if (!bisaTambah) {
+
+                operator = "-";
+
+            }
+
+
+            /*
+             * Kalau keduanya bisa,
+             * pilih secara acak.
+             */
+
+            else {
+
+                operator =
+                    Math.random() < 0.5
+                        ? "+"
+                        : "-";
+
+            }
+
+
+            let nilai;
+
+
+            /*
+             * OPERASI TAMBAH
+             */
+
+            if (operator === "+") {
+
+                /*
+                 * Maksimal angka yang boleh
+                 * ditambahkan agar hasil <= 99.
+                 */
+
+                const maxTambah =
+                    Math.min(
+                        ANGKA_MAX,
+                        HASIL_MAX -
+                        hasilSaatIni
+                    );
+
+
+                /*
+                 * Pastikan minimal masih
+                 * bisa mengambil ANGKA_MIN.
+                 */
+
+                if (
+                    maxTambah <
+                    ANGKA_MIN
+                ) {
+
+                    break;
+
+                }
+
+
+                nilai =
+                    acak(
+                        ANGKA_MIN,
+                        maxTambah
+                    );
+
+
+                hasilSaatIni += nilai;
+
+            }
+
+
+            /*
+             * OPERASI KURANG
+             */
+
+            else {
+
+                /*
+                 * Nilai pengurang tidak boleh
+                 * lebih besar dari hasil sekarang.
+                 */
+
+                const maxKurang =
+                    Math.min(
+                        ANGKA_MAX,
+                        hasilSaatIni
+                    );
+
+
+                /*
+                 * Pastikan minimal bisa
+                 * mengambil ANGKA_MIN.
+                 */
+
+                if (
+                    maxKurang <
+                    ANGKA_MIN
+                ) {
+
+                    break;
+
+                }
+
+
+                nilai =
+                    acak(
+                        ANGKA_MIN,
+                        maxKurang
+                    );
+
+
+                hasilSaatIni -= nilai;
+
+            }
+
+
+            /*
+             * Simpan operator dan angka.
+             */
+
+            operasi.push(
+                operator
+            );
+
+            angka.push(
+                nilai
+            );
+
+        }
+
+
+        /*
+         * Pastikan jumlah angka lengkap.
+         *
+         * JUMLAH_ANGKA = 10 berarti:
+         *
+         * angka 1
+         * operator + angka 2
+         * operator + angka 3
+         * ...
+         * operator + angka 10
+         */
+
+        if (
+            angka.length !==
+            JUMLAH_ANGKA
+        ) {
+
+            continue;
+
+        }
+
+
+        /*
+         * Pastikan jumlah operator juga lengkap.
+         */
+
+        if (
+            operasi.length !==
+            JUMLAH_ANGKA - 1
+        ) {
+
+            continue;
+
+        }
+
+
+        /*
+         * Hasil akhir harus tetap
+         * berada pada 0-99.
+         */
+
+        if (
+            hasilSaatIni >= HASIL_MIN &&
+            hasilSaatIni <= HASIL_MAX
+        ) {
 
             return {
 
-                angka: [
-                    25,
-                    10,
-                    10,
-                    10,
-                    10,
-                    10,
-                    10,
-                    10
-                ],
+                angka: angka,
 
-                operasi: [
-                    "+",
-                    "+",
-                    "+",
-                    "-",
-                    "-",
-                    "-",
-                    "-"
-                ],
+                operasi: operasi,
 
-                hasil: 25
+                hasil: hasilSaatIni
 
             };
 
         }
+
+    }
+
+
+    /*
+     * ==================================================
+     * SOAL CADANGAN
+     *
+     * Semua langkah sudah dipastikan aman.
+     * ==================================================
+     */
+
+    return {
+
+        angka: [
+            20,
+            10,
+            15,
+            10,
+            5,
+            10,
+            15,
+            10,
+            5,
+            10
+        ],
+
+        operasi: [
+            "+",
+            "+",
+            "-",
+            "+",
+            "+",
+            "-",
+            "+",
+            "-",
+            "-"
+        ],
+
+        hasil: 15
+
+    };
+
+}
 
 
         /* ==================================================

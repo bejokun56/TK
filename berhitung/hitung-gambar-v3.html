@@ -1,0 +1,2295 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Matematika Ceria TK</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        html,
+        body {
+
+            width: 100%;
+
+            min-height: 100%;
+
+            margin: 0;
+        }
+
+
+        body {
+
+            font-family: Arial, sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #74d8ff,
+                    #b9f6ca
+                );
+
+            min-height: 100vh;
+            min-height: 100dvh;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            padding: 10px;
+        }
+
+
+        /* =========================
+           GAME
+        ========================= */
+
+        .game {
+
+            width: 100%;
+
+            max-width: 750px;
+
+            background: white;
+
+            border-radius: 30px;
+
+            padding:
+                clamp(12px, 3vw, 25px);
+
+            text-align: center;
+
+            box-shadow:
+                0 10px 30px
+                rgba(0, 0, 0, .15);
+        }
+
+
+        /* =========================
+           JUDUL
+        ========================= */
+
+        h1 {
+
+            margin:
+                3px 0 8px;
+
+            color: #ff6b6b;
+
+            font-size:
+                clamp(24px, 6vw, 36px);
+
+            line-height: 1.2;
+        }
+
+
+        /* =========================
+           SCORE
+        ========================= */
+
+        .score {
+
+            font-size:
+                clamp(16px, 4vw, 21px);
+
+            font-weight: bold;
+
+            color: #555;
+
+            margin-bottom: 10px;
+        }
+
+
+        .score span {
+
+            color: #ff922b;
+        }
+
+
+        /* =========================
+           PERTANYAAN
+        ========================= */
+
+        .question {
+
+            font-size:
+                clamp(19px, 5vw, 27px);
+
+            font-weight: bold;
+
+            color: #444;
+
+            margin:
+                10px 0 14px;
+
+            line-height: 1.3;
+        }
+
+
+        /* =========================
+           AREA GAMBAR
+        ========================= */
+
+        .objects {
+
+            width: 100%;
+
+            /*
+             * Tinggi area diperbesar supaya
+             * banyak gambar bisa ditampilkan.
+             */
+
+            height:
+                clamp(300px, 55vw, 400px);
+
+            min-height: 280px;
+
+            position: relative;
+
+            overflow: hidden;
+
+            background: #fff8dc;
+
+            border-radius: 25px;
+
+            margin-bottom: 18px;
+
+            border:
+                3px dashed #ffd43b;
+        }
+
+
+        /* =========================
+           GAMBAR
+        ========================= */
+
+        .object {
+
+            position: absolute;
+
+            /*
+             * Ukuran gambar dibuat lebih kecil
+             * agar jumlah banyak tetap muat.
+             */
+
+            font-size:
+                clamp(23px, 5vw, 34px);
+
+            line-height: 1;
+
+            user-select: none;
+
+            pointer-events: none;
+
+            transform-origin: center;
+
+            animation:
+                muncul .25s ease;
+        }
+
+
+        @keyframes muncul {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translate(-50%, -50%)
+                    scale(0);
+            }
+
+            to {
+
+                opacity: 1;
+            }
+
+        }
+
+
+        /* =========================
+           JAWABAN
+        ========================= */
+
+        .answers {
+
+            width: 100%;
+
+            display: grid;
+
+            /*
+             * 6 pilihan.
+             *
+             * Pada layar besar:
+             * 3 kolom x 2 baris.
+             */
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap:
+                clamp(7px, 2vw, 12px);
+        }
+
+
+        .answer {
+
+            width: 100%;
+
+            border: none;
+
+            border-radius: 17px;
+
+            padding:
+                clamp(9px, 3vw, 14px)
+                5px;
+
+            font-size:
+                clamp(21px, 6vw, 31px);
+
+            font-weight: bold;
+
+            color: white;
+
+            background: #4dabf7;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 5px 0 #339af0;
+
+            transition:
+                transform .15s,
+                box-shadow .15s;
+        }
+
+
+        .answer:hover {
+
+            transform:
+                translateY(-3px);
+        }
+
+
+        .answer:active {
+
+            transform:
+                translateY(3px);
+
+            box-shadow:
+                0 2px 0 #339af0;
+        }
+
+
+        .answer:disabled {
+
+            cursor: default;
+        }
+
+
+        /* =========================
+           BENAR
+        ========================= */
+
+        .correct {
+
+            background:
+                #51cf66 !important;
+
+            box-shadow:
+                0 5px 0 #37b24d !important;
+        }
+
+
+        /* =========================
+           SALAH
+        ========================= */
+
+        .wrong {
+
+            background:
+                #ff6b6b !important;
+
+            box-shadow:
+                0 5px 0 #fa5252 !important;
+        }
+
+
+        /* =========================
+           PESAN
+        ========================= */
+
+        .message {
+
+            min-height: 38px;
+
+            margin-top: 15px;
+
+            font-size:
+                clamp(18px, 5vw, 25px);
+
+            font-weight: bold;
+
+            line-height: 1.3;
+        }
+
+
+        /* =========================
+           NEXT
+        ========================= */
+
+        .next {
+
+            display: none;
+
+            width: auto;
+
+            max-width: 100%;
+
+            border: none;
+
+            background: #ffa94d;
+
+            color: white;
+
+            font-size:
+                clamp(17px, 4vw, 22px);
+
+            font-weight: bold;
+
+            padding:
+                12px 23px;
+
+            border-radius: 17px;
+
+            cursor: pointer;
+
+            margin:
+                8px auto 0;
+
+            box-shadow:
+                0 4px 0 #f08c00;
+
+            transition: .15s;
+        }
+
+
+        .next:hover {
+
+            background:
+                #ff922b;
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        .next:active {
+
+            transform:
+                translateY(2px);
+
+            box-shadow:
+                0 2px 0 #f08c00;
+        }
+
+
+        /* =========================
+           HASIL
+        ========================= */
+
+        .hasil {
+
+            text-align: center;
+        }
+
+
+        .hasil-icon {
+
+            font-size:
+                clamp(55px, 15vw, 85px);
+
+            margin:
+                10px 0 15px;
+        }
+
+
+        .hasil-title {
+
+            color: #ff6b6b;
+
+            font-size:
+                clamp(28px, 7vw, 40px);
+
+            margin:
+                10px 0;
+        }
+
+
+        .hasil-label {
+
+            font-size:
+                clamp(20px, 5vw, 27px);
+
+            color: #555;
+
+            font-weight: bold;
+
+            margin-top: 15px;
+        }
+
+
+        .hasil-score {
+
+            font-size:
+                clamp(50px, 15vw, 75px);
+
+            color: #51cf66;
+
+            font-weight: bold;
+
+            margin:
+                5px 0;
+        }
+
+
+        .hasil-nilai {
+
+            display: inline-block;
+
+            background: #fff3bf;
+
+            color: #f08c00;
+
+            font-size:
+                clamp(27px, 7vw, 38px);
+
+            font-weight: bold;
+
+            padding:
+                12px 25px;
+
+            border-radius: 20px;
+
+            margin:
+                10px 0 20px;
+        }
+
+
+        .hasil-pesan {
+
+            font-size:
+                clamp(19px, 5vw, 25px);
+
+            font-weight: bold;
+
+            color: #555;
+
+            margin:
+                10px 0 25px;
+
+            line-height: 1.4;
+        }
+
+
+        .main-lagi {
+
+            border: none;
+
+            background: #4dabf7;
+
+            color: white;
+
+            font-size:
+                clamp(18px, 5vw, 23px);
+
+            font-weight: bold;
+
+            padding:
+                15px 30px;
+
+            border-radius: 18px;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 5px 0 #339af0;
+
+            transition: .15s;
+        }
+
+
+        .main-lagi:hover {
+
+            background:
+                #339af0;
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        .main-lagi:active {
+
+            transform:
+                translateY(3px);
+
+            box-shadow:
+                0 2px 0 #339af0;
+        }
+
+
+        /* =========================
+           HP KECIL
+        ========================= */
+
+        @media (max-width: 400px) {
+
+            body {
+
+                padding: 5px;
+
+                align-items: center;
+            }
+
+
+            .game {
+
+                padding:
+                    12px 10px;
+
+                border-radius: 22px;
+            }
+
+
+            h1 {
+
+                margin:
+                    2px 0 6px;
+            }
+
+
+            .score {
+
+                margin-bottom: 7px;
+            }
+
+
+            .question {
+
+                margin:
+                    7px 0 10px;
+
+                font-size: 19px;
+            }
+
+
+            .objects {
+
+                height: 300px;
+
+                min-height: 280px;
+
+                border-radius: 18px;
+
+                margin-bottom: 14px;
+            }
+
+
+            .object {
+
+                font-size: 23px;
+            }
+
+
+            .answers {
+
+                /*
+                 * Tetap 3 kolom.
+                 * Jadi 6 pilihan = 2 baris.
+                 */
+
+                grid-template-columns:
+                    repeat(3, 1fr);
+
+                gap: 7px;
+            }
+
+
+            .answer {
+
+                border-radius: 13px;
+
+                padding:
+                    10px 3px;
+
+                font-size: 22px;
+            }
+
+
+            .message {
+
+                margin-top: 12px;
+
+                min-height: 38px;
+            }
+
+
+            .next {
+
+                width: 100%;
+
+                padding:
+                    12px 15px;
+
+                border-radius: 15px;
+            }
+
+        }
+
+
+        /* =========================
+           TABLET
+        ========================= */
+
+        @media (min-width: 600px) {
+
+            .objects {
+
+                height: 380px;
+            }
+
+
+            .object {
+
+                font-size: 31px;
+            }
+
+        }
+
+
+        /* =========================
+           DESKTOP
+        ========================= */
+
+        @media (min-width: 900px) {
+
+            body {
+
+                padding: 25px;
+            }
+
+
+            .game {
+
+                max-width: 750px;
+            }
+
+
+            .objects {
+
+                height: 400px;
+            }
+
+
+            .object {
+
+                font-size: 34px;
+            }
+
+        }
+
+
+        /* =========================
+           HP LANDSCAPE
+        ========================= */
+
+        @media (
+            max-height: 550px
+        ) and (
+            orientation: landscape
+        ) {
+
+            body {
+
+                align-items:
+                    flex-start;
+
+                padding: 8px;
+            }
+
+
+            .game {
+
+                max-width: 800px;
+
+                padding:
+                    10px 15px;
+            }
+
+
+            h1 {
+
+                font-size: 23px;
+
+                margin:
+                    2px 0;
+            }
+
+
+            .score {
+
+                font-size: 15px;
+
+                margin-bottom: 3px;
+            }
+
+
+            .question {
+
+                font-size: 18px;
+
+                margin:
+                    3px 0 6px;
+            }
+
+
+            .objects {
+
+                height: 180px;
+
+                min-height: 170px;
+
+                margin-bottom: 8px;
+            }
+
+
+            .object {
+
+                font-size: 22px;
+            }
+
+
+            .answers {
+
+                gap: 6px;
+            }
+
+
+            .answer {
+
+                padding:
+                    7px 3px;
+
+                font-size: 21px;
+            }
+
+
+            .message {
+
+                margin-top: 7px;
+
+                min-height: 25px;
+
+                font-size: 17px;
+            }
+
+
+            .next {
+
+                padding:
+                    8px 18px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="game" id="game">
+
+
+    <h1>
+        🌈 Matematika Ceria 🌈
+    </h1>
+
+
+    <div class="score">
+
+        ⭐ Skor:
+        <span id="score">0</span>
+
+        &nbsp; | &nbsp;
+
+        📝 Soal:
+        <span id="nomorSoal">0</span>/10
+
+    </div>
+
+
+    <div
+        class="question"
+        id="question"
+    >
+        Ada berapa benda?
+    </div>
+
+
+    <div
+        class="objects"
+        id="objects"
+    ></div>
+
+
+    <div
+        class="answers"
+        id="answers"
+    ></div>
+
+
+    <div
+        class="message"
+        id="message"
+    ></div>
+
+
+    <button
+        class="next"
+        id="next"
+        onclick="soalBerikutnya()"
+    >
+        ➡️ Soal Berikutnya
+    </button>
+
+</div>
+
+
+
+<script>
+
+    /* =====================================================
+       DATA BANYAK JENIS GAMBAR
+       
+       Anda bisa menambahkan gambar sebanyak yang diinginkan.
+       Setiap soal akan mengambil 5 jenis gambar secara acak.
+       ===================================================== */
+
+    const benda = [
+
+        {
+            emoji: "🍎",
+            nama: "apel"
+        },
+
+        {
+            emoji: "🍊",
+            nama: "jeruk"
+        },
+
+        {
+            emoji: "🍓",
+            nama: "stroberi"
+        },
+
+        {
+            emoji: "🍌",
+            nama: "pisang"
+        },
+
+        {
+            emoji: "🍉",
+            nama: "semangka"
+        },
+
+        {
+            emoji: "🍇",
+            nama: "anggur"
+        },
+
+        {
+            emoji: "🍒",
+            nama: "ceri"
+        },
+
+        {
+            emoji: "🍍",
+            nama: "nanas"
+        },
+
+        {
+            emoji: "🥕",
+            nama: "wortel"
+        },
+
+        {
+            emoji: "🌽",
+            nama: "jagung"
+        },
+
+        {
+            emoji: "⭐",
+            nama: "bintang"
+        },
+
+        {
+            emoji: "❤️",
+            nama: "hati"
+        },
+
+        {
+            emoji: "🌸",
+            nama: "bunga"
+        },
+
+        {
+            emoji: "🌻",
+            nama: "bunga matahari"
+        },
+
+        {
+            emoji: "🌈",
+            nama: "pelangi"
+        },
+
+        {
+            emoji: "☀️",
+            nama: "matahari"
+        },
+
+        {
+            emoji: "🌙",
+            nama: "bulan"
+        },
+
+        {
+            emoji: "☁️",
+            nama: "awan"
+        },
+
+        {
+            emoji: "🐱",
+            nama: "kucing"
+        },
+
+        {
+            emoji: "🐶",
+            nama: "anjing"
+        },
+
+        {
+            emoji: "🐟",
+            nama: "ikan"
+        },
+
+        {
+            emoji: "🦋",
+            nama: "kupu-kupu"
+        },
+
+        {
+            emoji: "🐸",
+            nama: "katak"
+        },
+
+        {
+            emoji: "🐰",
+            nama: "kelinci"
+        },
+
+        {
+            emoji: "🐼",
+            nama: "panda"
+        },
+
+        {
+            emoji: "🦁",
+            nama: "singa"
+        },
+
+        {
+            emoji: "🐘",
+            nama: "gajah"
+        },
+
+        {
+            emoji: "🐵",
+            nama: "monyet"
+        },
+
+        {
+            emoji: "🚗",
+            nama: "mobil"
+        },
+
+        {
+            emoji: "🚌",
+            nama: "bus"
+        },
+
+        {
+            emoji: "🚲",
+            nama: "sepeda"
+        },
+
+        {
+            emoji: "✈️",
+            nama: "pesawat"
+        },
+
+        {
+            emoji: "🚀",
+            nama: "roket"
+        },
+
+        {
+            emoji: "🚂",
+            nama: "kereta"
+        },
+
+        {
+            emoji: "⚽",
+            nama: "bola"
+        },
+
+        {
+            emoji: "🎈",
+            nama: "balon"
+        },
+
+        {
+            emoji: "🎁",
+            nama: "hadiah"
+        },
+
+        {
+            emoji: "🍭",
+            nama: "lolipop"
+        },
+
+        {
+            emoji: "🍩",
+            nama: "donat"
+        },
+
+        {
+            emoji: "🍪",
+            nama: "biskuit"
+        },
+
+        {
+            emoji: "🎂",
+            nama: "kue"
+        },
+
+        {
+            emoji: "🧸",
+            nama: "boneka"
+        },
+
+        {
+            emoji: "🌷",
+            nama: "tulip"
+        },
+
+        {
+            emoji: "🌺",
+            nama: "bunga"
+        },
+
+        {
+            emoji: "🍀",
+            nama: "semanggi"
+        },
+
+        {
+            emoji: "🍄",
+            nama: "jamur"
+        },
+
+        {
+            emoji: "🐝",
+            nama: "lebah"
+        },
+
+        {
+            emoji: "🐞",
+            nama: "kepik"
+        },
+
+        {
+            emoji: "🐢",
+            nama: "kura-kura"
+        },
+
+        {
+            emoji: "🐠",
+            nama: "ikan tropis"
+        },
+
+        {
+            emoji: "🥝",
+            nama: "kiwi"
+        },
+
+        {
+            emoji: "🍐",
+            nama: "pir"
+        },
+
+        {
+            emoji: "🥭",
+            nama: "mangga"
+        },
+
+        {
+            emoji: "🍑",
+            nama: "persik"
+        },
+
+        {
+            emoji: "🥥",
+            nama: "kelapa"
+        },
+
+        {
+            emoji: "🍋",
+            nama: "lemon"
+        },
+
+        {
+            emoji: "🐳",
+            nama: "paus"
+        },
+
+        {
+            emoji: "🐬",
+            nama: "lumba-lumba"
+        },
+
+        {
+            emoji: "🦄",
+            nama: "unicorn"
+        },
+
+        {
+            emoji: "🐔",
+            nama: "ayam"
+        },
+
+        {
+            emoji: "🦆",
+            nama: "bebek"
+        },
+
+        {
+            emoji: "🐮",
+            nama: "sapi"
+        }
+
+    ];
+
+
+    /* =====================================================
+       VARIABEL GAME
+       ===================================================== */
+
+    let jawabanBenar = 0;
+
+    let skor = 0;
+
+    let nomorSoal = 0;
+
+    let sudahMenjawab = false;
+
+    let targetSekarang = null;
+
+    const TOTAL_SOAL = 10;
+
+    /*
+     * Jumlah jenis gambar yang tampil
+     * dalam setiap soal.
+     */
+
+    const JUMLAH_JENIS_GAMBAR = 6;
+
+
+    /* =====================================================
+       ACAK ANGKA
+       ===================================================== */
+
+    function acak(min, max) {
+
+        return Math.floor(
+            Math.random()
+            *
+            (max - min + 1)
+        ) + min;
+
+    }
+
+
+    /* =====================================================
+       ACAK ARRAY
+       ===================================================== */
+
+    function shuffle(array) {
+
+        for (
+            let i = array.length - 1;
+            i > 0;
+            i--
+        ) {
+
+            const j =
+                Math.floor(
+                    Math.random()
+                    * (i + 1)
+                );
+
+            [
+                array[i],
+                array[j]
+            ] = [
+                array[j],
+                array[i]
+            ];
+
+        }
+
+        return array;
+
+    }
+
+
+    /* =====================================================
+       AMBIL 5 JENIS GAMBAR ACAK
+       ===================================================== */
+
+    function ambilAcakBenda() {
+
+        const salinan =
+            [...benda];
+
+        shuffle(
+            salinan
+        );
+
+        return salinan.slice(
+            0,
+            JUMLAH_JENIS_GAMBAR
+        );
+
+    }
+
+
+    /* =====================================================
+       HITUNG JARAK
+       ===================================================== */
+
+    function terlaluDekat(
+        x,
+        y,
+        posisi,
+        jarak
+    ) {
+
+        for (
+            const item of posisi
+        ) {
+
+            const dx =
+                x - item.x;
+
+            const dy =
+                y - item.y;
+
+            const distance =
+                Math.sqrt(
+                    dx * dx +
+                    dy * dy
+                );
+
+
+            if (
+                distance < jarak
+            ) {
+
+                return true;
+
+            }
+
+        }
+
+
+        return false;
+
+    }
+
+
+    /* =====================================================
+       BUAT POSISI GAMBAR
+       
+       Sistem akan mencoba banyak posisi.
+       Jika terlalu penuh, jarak otomatis
+       diperkecil supaya semua gambar tetap muat.
+       ===================================================== */
+
+    function buatPosisiAcak(
+        jumlah,
+        container
+    ) {
+
+        const lebar =
+            container.clientWidth;
+
+        const tinggi =
+            container.clientHeight;
+
+
+        /*
+         * Ukuran dasar gambar.
+         */
+
+        let ukuran;
+
+
+        if (
+            window.innerWidth <= 400
+        ) {
+
+            ukuran = 23;
+
+        }
+
+        else if (
+            window.innerWidth < 600
+        ) {
+
+            ukuran = 27;
+
+        }
+
+        else {
+
+            ukuran = 31;
+
+        }
+
+
+        /*
+         * Buat beberapa level jarak.
+         *
+         * Sistem mulai dari jarak yang nyaman.
+         * Jika tidak muat, jarak diperkecil.
+         */
+
+        const jarakLevels = [
+
+            ukuran * 1.35,
+
+            ukuran * 1.15,
+
+            ukuran * 1.0,
+
+            ukuran * 0.85,
+
+            ukuran * 0.7
+
+        ];
+
+
+        for (
+            const jarak of jarakLevels
+        ) {
+
+            const posisi = [];
+
+            let berhasilSemua = true;
+
+
+            for (
+                let i = 0;
+                i < jumlah;
+                i++
+            ) {
+
+                let ditemukan = false;
+
+
+                for (
+                    let percobaan = 0;
+                    percobaan < 300;
+                    percobaan++
+                ) {
+
+                    const margin =
+                        ukuran + 5;
+
+
+                    const x =
+                        margin +
+                        Math.random()
+                        *
+                        Math.max(
+                            1,
+                            lebar -
+                            margin * 2
+                        );
+
+
+                    const y =
+                        margin +
+                        Math.random()
+                        *
+                        Math.max(
+                            1,
+                            tinggi -
+                            margin * 2
+                        );
+
+
+                    if (
+                        !terlaluDekat(
+                            x,
+                            y,
+                            posisi,
+                            jarak
+                        )
+                    ) {
+
+                        posisi.push({
+
+                            x: x,
+
+                            y: y
+
+                        });
+
+
+                        ditemukan = true;
+
+                        break;
+
+                    }
+
+                }
+
+
+                if (
+                    !ditemukan
+                ) {
+
+                    berhasilSemua =
+                        false;
+
+                    break;
+
+                }
+
+            }
+
+
+            /*
+             * Kalau semua berhasil,
+             * gunakan posisi ini.
+             */
+
+            if (
+                berhasilSemua
+            ) {
+
+                return posisi;
+
+            }
+
+        }
+
+
+        /*
+         * Fallback:
+         * jika jumlah terlalu banyak,
+         * gunakan grid acak.
+         */
+
+        const posisi = [];
+
+        const kolom =
+            Math.ceil(
+                Math.sqrt(jumlah)
+            );
+
+        const baris =
+            Math.ceil(
+                jumlah / kolom
+            );
+
+
+        const cellWidth =
+            lebar / kolom;
+
+        const cellHeight =
+            tinggi / baris;
+
+
+        for (
+            let i = 0;
+            i < jumlah;
+            i++
+        ) {
+
+            const col =
+                i % kolom;
+
+            const row =
+                Math.floor(
+                    i / kolom
+                );
+
+
+            posisi.push({
+
+                x:
+                    col * cellWidth +
+                    cellWidth / 2 +
+                    (Math.random() - .5)
+                    * cellWidth * .4,
+
+                y:
+                    row * cellHeight +
+                    cellHeight / 2 +
+                    (Math.random() - .5)
+                    * cellHeight * .4
+
+            });
+
+        }
+
+
+        return posisi;
+
+    }
+
+
+    /* =====================================================
+       BUAT SOAL
+       ===================================================== */
+
+    function buatSoal() {
+
+        sudahMenjawab = false;
+
+        nomorSoal++;
+
+
+        const objects =
+            document.getElementById(
+                "objects"
+            );
+
+
+        const answers =
+            document.getElementById(
+                "answers"
+            );
+
+
+        const message =
+            document.getElementById(
+                "message"
+            );
+
+
+        const next =
+            document.getElementById(
+                "next"
+            );
+
+
+        /*
+         * Reset tampilan.
+         */
+
+        objects.innerHTML = "";
+
+        answers.innerHTML = "";
+
+        message.textContent = "";
+
+        next.style.display = "none";
+
+
+        /*
+         * Update nomor soal.
+         */
+
+        document.getElementById(
+            "nomorSoal"
+        ).textContent =
+            nomorSoal;
+
+
+        /* =================================================
+           AMBIL 5 JENIS GAMBAR
+           ================================================= */
+
+        const acakBenda =
+            ambilAcakBenda();
+
+
+        /*
+         * Pilih satu sebagai benda target.
+         */
+
+        targetSekarang =
+            acakBenda[
+                acak(
+                    0,
+                    acakBenda.length - 1
+                )
+            ];
+
+
+        /*
+         * Jumlah benda target.
+         *
+         * Bisa Anda ubah.
+         *
+         * Contoh:
+         * 5 - 15 lebih mudah untuk TK.
+         * 10 - 30 lebih sulit.
+         */
+
+        jawabanBenar =
+            acak(14, 26);
+
+
+        /* =================================================
+           BUAT SEMUA GAMBAR
+           ================================================= */
+
+        let semuaBenda = [];
+
+
+        acakBenda.forEach(
+            item => {
+
+                let jumlah;
+
+
+                /*
+                 * Target menggunakan jumlah
+                 * jawaban yang benar.
+                 */
+
+                if (
+                    item.emoji ===
+                    targetSekarang.emoji
+                ) {
+
+                    jumlah =
+                        jawabanBenar;
+
+                }
+
+                else {
+
+                    /*
+                     * Gambar lain sebagai pengecoh.
+                     *
+                     * Jumlah dibuat lebih sedikit.
+                     */
+
+                    jumlah =
+                        acak(
+                            8,
+                            14
+                        );
+
+                }
+
+
+                /*
+                 * Masukkan ke array.
+                 */
+
+                for (
+                    let i = 0;
+                    i < jumlah;
+                    i++
+                ) {
+
+                    semuaBenda.push(
+                        item
+                    );
+
+                }
+
+            }
+        );
+
+
+        /*
+         * Acak semua gambar.
+         */
+
+        shuffle(
+            semuaBenda
+        );
+
+
+        /* =================================================
+           BUAT POSISI
+           ================================================= */
+
+        const posisi =
+            buatPosisiAcak(
+                semuaBenda.length,
+                objects
+            );
+
+
+        /* =================================================
+           TAMPILKAN GAMBAR
+           ================================================= */
+
+        semuaBenda.forEach(
+            (item, index) => {
+
+                const span =
+                    document.createElement(
+                        "span"
+                    );
+
+
+                span.className =
+                    "object";
+
+
+                span.textContent =
+                    item.emoji;
+
+
+                /*
+                 * Posisi.
+                 */
+
+                span.style.left =
+                    posisi[index].x +
+                    "px";
+
+
+                span.style.top =
+                    posisi[index].y +
+                    "px";
+
+
+                /*
+                 * Rotasi acak.
+                 */
+
+                const rotasi =
+                    acak(
+                        -15,
+                        15
+                    );
+
+
+                /*
+                 * Ukuran sedikit acak.
+                 */
+
+                const skala =
+                    acak(
+                        85,
+                        115
+                    ) / 100;
+
+
+                /*
+                 * Karena CSS animasi menggunakan
+                 * transform, gunakan variabel CSS
+                 * agar posisi tetap benar.
+                 */
+
+                span.style.setProperty(
+                    "--rotasi",
+                    rotasi + "deg"
+                );
+
+
+                span.style.setProperty(
+                    "--skala",
+                    skala
+                );
+
+
+                span.style.transform =
+                    `translate(-50%, -50%)
+                     rotate(${rotasi}deg)
+                     scale(${skala})`;
+
+
+                objects.appendChild(
+                    span
+                );
+
+            }
+        );
+
+
+        /* =================================================
+           PERTANYAAN
+           ================================================= */
+
+        document.getElementById(
+            "question"
+        ).textContent =
+
+            "Soal " +
+            nomorSoal +
+            " dari " +
+            TOTAL_SOAL +
+            " — Ada berapa " +
+            targetSekarang.nama +
+            "?";
+
+
+        /* =================================================
+           BUAT 6 PILIHAN JAWABAN
+           ================================================= */
+
+        let pilihan = [
+
+            jawabanBenar
+
+        ];
+
+
+        /*
+         * Tambahkan sampai 6 pilihan.
+         */
+
+        while (
+            pilihan.length < 6
+        ) {
+
+            let salah;
+
+
+            /*
+             * Buat angka pengecoh.
+             */
+
+            salah =
+                acak(
+                    Math.max(
+                        1,
+                        jawabanBenar - 7
+                    ),
+                    Math.min(
+                        30,
+                        jawabanBenar + 7
+                    )
+                );
+
+
+            /*
+             * Pastikan tidak sama
+             * dengan jawaban benar
+             * dan tidak duplikat.
+             */
+
+            if (
+                !pilihan.includes(
+                    salah
+                )
+            ) {
+
+                pilihan.push(
+                    salah
+                );
+
+            }
+
+        }
+
+
+        /*
+         * Acak 6 pilihan.
+         */
+
+        shuffle(
+            pilihan
+        );
+
+
+        /* =================================================
+           TAMPILKAN 6 TOMBOL
+           ================================================= */
+
+        pilihan.forEach(
+            angka => {
+
+                const button =
+                    document.createElement(
+                        "button"
+                    );
+
+
+                button.className =
+                    "answer";
+
+
+                button.textContent =
+                    angka;
+
+
+                button.onclick =
+                    function () {
+
+                        periksaJawaban(
+                            angka,
+                            button
+                        );
+
+                    };
+
+
+                answers.appendChild(
+                    button
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       PERIKSA JAWABAN
+       ===================================================== */
+
+    function periksaJawaban(
+        jawaban,
+        tombol
+    ) {
+
+        if (
+            sudahMenjawab
+        ) {
+
+            return;
+
+        }
+
+
+        sudahMenjawab = true;
+
+
+        const semuaTombol =
+            document.querySelectorAll(
+                ".answer"
+            );
+
+
+        const message =
+            document.getElementById(
+                "message"
+            );
+
+
+        /*
+         * JAWABAN BENAR
+         */
+
+        if (
+            jawaban ===
+            jawabanBenar
+        ) {
+
+            skor++;
+
+
+            document.getElementById(
+                "score"
+            ).textContent =
+                skor;
+
+
+            tombol.classList.add(
+                "correct"
+            );
+
+
+            message.textContent =
+                "🎉 Hebat! Jawaban benar! ⭐";
+
+        }
+
+
+        /*
+         * JAWABAN SALAH
+         */
+
+        else {
+
+            tombol.classList.add(
+                "wrong"
+            );
+
+
+            message.textContent =
+                "😊 Belum tepat. Jawabannya " +
+                jawabanBenar;
+
+
+            /*
+             * Cari tombol jawaban benar.
+             */
+
+            semuaTombol.forEach(
+                btn => {
+
+                    if (
+                        Number(
+                            btn.textContent
+                        ) ===
+                        jawabanBenar
+                    ) {
+
+                        btn.classList.add(
+                            "correct"
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        /*
+         * Matikan semua tombol.
+         */
+
+        semuaTombol.forEach(
+            btn => {
+
+                btn.disabled = true;
+
+            }
+        );
+
+
+        /*
+         * Tombol berikutnya.
+         */
+
+        const next =
+            document.getElementById(
+                "next"
+            );
+
+
+        if (
+            nomorSoal ===
+            TOTAL_SOAL
+        ) {
+
+            next.textContent =
+                "🏆 Lihat Nilai";
+
+        }
+
+        else {
+
+            next.textContent =
+                "➡️ Soal Berikutnya";
+
+        }
+
+
+        next.style.display =
+            "block";
+
+    }
+
+
+    /* =====================================================
+       SOAL BERIKUTNYA
+       ===================================================== */
+
+    function soalBerikutnya() {
+
+        if (
+            nomorSoal >=
+            TOTAL_SOAL
+        ) {
+
+            tampilkanHasil();
+
+            return;
+
+        }
+
+
+        buatSoal();
+
+    }
+
+
+    /* =====================================================
+       TAMPILKAN HASIL
+       ===================================================== */
+
+    function tampilkanHasil() {
+
+        const game =
+            document.getElementById(
+                "game"
+            );
+
+
+        const nilai =
+            Math.round(
+                (
+                    skor /
+                    TOTAL_SOAL
+                ) * 100
+            );
+
+
+        let pesan = "";
+
+
+        if (
+            nilai === 100
+        ) {
+
+            pesan =
+                "🌟 Sempurna! Kamu hebat sekali!";
+
+        }
+
+        else if (
+            nilai >= 80
+        ) {
+
+            pesan =
+                "🎉 Hebat! Terus berlatih ya!";
+
+        }
+
+        else if (
+            nilai >= 60
+        ) {
+
+            pesan =
+                "😊 Bagus! Ayo latihan lagi!";
+
+        }
+
+        else {
+
+            pesan =
+                "💪 Jangan menyerah! Kamu pasti bisa!";
+
+        }
+
+
+        game.innerHTML = `
+
+            <div class="hasil">
+
+                <div class="hasil-icon">
+                    🏆
+                </div>
+
+                <h1 class="hasil-title">
+                    🎉 Permainan Selesai! 🎉
+                </h1>
+
+                <div class="hasil-label">
+                    Jawaban Benar
+                </div>
+
+                <div class="hasil-score">
+                    ${skor} / ${TOTAL_SOAL}
+                </div>
+
+                <div class="hasil-nilai">
+                    ⭐ Nilai: ${nilai}
+                </div>
+
+                <div class="hasil-pesan">
+                    ${pesan}
+                </div>
+
+                <button
+                    class="main-lagi"
+                    onclick="mulaiLagi()"
+                >
+                    🔄 Main Lagi
+                </button>
+
+            </div>
+
+        `;
+
+    }
+
+
+    /* =====================================================
+       MAIN LAGI
+       ===================================================== */
+
+    function mulaiLagi() {
+
+        skor = 0;
+
+        nomorSoal = 0;
+
+        jawabanBenar = 0;
+
+        targetSekarang = null;
+
+        sudahMenjawab = false;
+
+
+        location.reload();
+
+    }
+
+
+    /* =====================================================
+       MULAI GAME
+       ===================================================== */
+
+    buatSoal();
+
+</script>
+
+</body>
+
+</html>
